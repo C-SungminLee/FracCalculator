@@ -58,14 +58,14 @@ public class FracCalc {
         // Final
         if (operator.equals("+")) {
             //addition
-            int numerator = (firstFractionDenomenator*secondFractionDenomenator);
+            int numerator = ((secondFractionDenomenator * firstFractionNumerator)+( firstFractionDenomenator * secondFractionNumerator)+(firstFractionWhole+secondFractionWhole)*(firstFractionDenomenator*secondFractionDenomenator));
             int denomenator = (firstFractionDenomenator*secondFractionDenomenator);
             int whole = 0;
             if (!("" +numerator).equals("0")){
                 finalnumber = (numerator+"/"+denomenator);
             }
-            if ((firstFractionDenomenator*secondFractionDenomenator) == 1){
-                finalnumber =(""+ ((secondFractionDenomenator * firstFractionNumerator)+( firstFractionDenomenator * secondFractionNumerator)+(firstFractionWhole+secondFractionWhole)*(firstFractionDenomenator*secondFractionDenomenator)));
+            if (denomenator == 1){
+                finalnumber =(""+ (numerator));
             }
             else{
                 finalnumber = "0";
@@ -73,7 +73,7 @@ public class FracCalc {
             if (finalnumber.charAt(0) == 0 && finalnumber.charAt(1)==0){
                 finalnumber = finalnumber.substring(2,finalnumber.length());
             }
-            if ((((secondFractionDenomenator * firstFractionNumerator)+( firstFractionDenomenator * secondFractionNumerator)+(firstFractionWhole+secondFractionWhole)*(firstFractionDenomenator*secondFractionDenomenator))%(firstFractionDenomenator*secondFractionDenomenator))>0){
+            if ((numerator)%(denomenator)>0){
                 whole = numerator/denomenator;
 
             }
@@ -82,11 +82,41 @@ public class FracCalc {
             }
         } else if (operator.equals("-")) {
             //subtraction
-            if ((firstFractionDenomenator*secondFractionDenomenator) == 1){
-                finalnumber = (""+((secondFractionDenomenator * firstFractionNumerator) - (firstFractionDenomenator * secondFractionNumerator) + (firstFractionWhole - secondFractionWhole) * (firstFractionDenomenator * secondFractionDenomenator)));
-            }else {
-                finalnumber = (((secondFractionDenomenator * firstFractionNumerator) - (firstFractionDenomenator * secondFractionNumerator) + (firstFractionWhole - secondFractionWhole) * (firstFractionDenomenator * secondFractionDenomenator)) + "/" + (firstFractionDenomenator * secondFractionDenomenator));
+            int numerator = ((secondFractionDenomenator * firstFractionNumerator) - (firstFractionDenomenator * secondFractionNumerator) + (firstFractionWhole - secondFractionWhole) * (firstFractionDenomenator * secondFractionDenomenator));
+            int denomenator = (firstFractionDenomenator*secondFractionDenomenator);
+
+
+            if (denomenator == 1) {
+                finalnumber = ("" + numerator);
+            }else if(denomenator == -1){
+                finalnumber = ("-"+numerator);
+            }else if (numerator == 0){
+                finalnumber = (""+0);
+            }else if (Math.abs(numerator % denomenator) > 0 && Math.abs(numerator/denomenator) >1){
+                for (int k = 0; k < 10; k++) {
+                    for (int i = 2; i < 11; i++) {
+                        if ((numerator % i == 0) && (denomenator % i == 0)) {
+                            numerator = numerator / i;
+                            denomenator = denomenator / i;
+                        }
+                    }
+                }
+                int whole = numerator/denomenator;
+                finalnumber = (whole+"_"+numerator%denomenator+"/"+denomenator);
             }
+            else {
+                for (int k = 0; k < 10; k++) {
+                    for (int i = 2; i < 11; i++) {
+                        if ((numerator % i == 0) && (denomenator % i == 0)) {
+                            numerator = numerator / i;
+                            denomenator = denomenator / i;
+                        }
+                    }
+                }
+                finalnumber = (numerator + "/" + denomenator);
+            }
+
+
         } else if (operator.equals("*")) {
             //multiplication
             if ((((firstFractionWhole*firstFractionDenomenator)+(firstFractionNumerator))*((secondFractionWhole*secondFractionDenomenator)+(secondFractionNumerator))) == 0){
